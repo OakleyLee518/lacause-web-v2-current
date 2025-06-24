@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><!DOCTYPE html>
+        <html lang="en">
+        <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cubic Spline Interpolation Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<canvas id="chart" width="800" height="400"></canvas>
+
+<script src="interpolation.js"></script>
+
+<script>
+    // Sample data (control points)
+    const x = [0, 1, 2, 3, 4, 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19];
+    const y = [
+        0.0,
+        0.3246994692046835,
+        0.6142127126896677,
+        0.8371664782625285,
+        0.9694002659393306,
+        0.9965844930066698,
+        0.9157733266550575,
+        0.7357239106731318,
+        0.4759473930370737,
+        0.16459459028073403,
+        -0.1645945902807338,
+        -0.47594739303707345,
+        -0.7357239106731314,
+        -0.9157733266550571,
+        -0.9965844930066696,
+        -0.9694002659393307,
+        -0.8371664782625288,
+        -0.6142127126896679,
+        -0.3246994692046838,
+        -2.4492935982947064e-16
+    ]
+
+    // Create cubic spline
+    const spline = new CubicSpline(x, y);
+
+    // Generate interpolated points
+    const interpolatedX = [];
+    const interpolatedY = [];
+    for (let i = 0; i <= 80; i++) {
+        let xVal = i * 19 / 80;  // Generate x values between 0 and 5
+        interpolatedX.push(xVal);
+        interpolatedY.push(spline.interpolate(xVal));
+    }
+
+    // Plot using Chart.js
+    const ctx = document.getElementById("chart").getContext("2d");
+    new Chart(ctx, {
+        type: "line",
+        data: {
+            datasets: [
+                {
+                    label: "Original Points",
+                    data: x.map((xi, i) => ({ x: xi, y: y[i] })),
+                    borderColor: "red",
+                    backgroundColor: "red",
+                    pointRadius: 6,
+                    showLine: false
+                },
+                {
+                    label: "Cubic Spline Interpolation",
+                    data: interpolatedX.map((xi, i) => ({ x: xi, y: interpolatedY[i] })),
+                    borderColor: "blue",
+                    borderWidth: 2,
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            scales: {
+                x: { type: "linear", position: "bottom" },
+                y: { beginAtZero: false }
+            }
+        }
+    });
+</script>
+</body>
+</html>
+</title>
+</head>
+<body>
+
+</body>
+</html>
